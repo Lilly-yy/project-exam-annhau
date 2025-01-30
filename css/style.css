@@ -1,0 +1,234 @@
+:root {
+    --primary-color: #2a9d8f; 
+    --text-color: #264653; 
+    --light-color: #BAE2DF; 
+    --dark-color: #1A6862; 
+}
+
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--primary-color); 
+}
+
+/* Header Container */
+.header-container, .footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    height: 100px;
+    box-sizing: border-box;
+}
+
+/* Logo */
+.logo img {
+    max-height: 85px; 
+    width: auto; 
+    object-fit: contain;
+}
+
+/* Slogan Styling */
+.header-slogan {
+    font-family: 'Amatic SC', cursive;
+    font-size: 2rem; 
+    color: var(--light-color); 
+    margin: 10px;
+    text-align: center; 
+    letter-spacing: 0.1em; 
+  }
+  
+
+/* Navigation Links */
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 1.5rem;
+}
+
+.nav-links a {
+    color: var(--light-color);
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.nav-links a:hover,
+.nav-links a:focus {
+    text-decoration: underline; 
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        height: auto;
+        padding: 1rem;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .logo img {
+        max-height: 50px; 
+        width: auto;
+    }
+}
+
+/* Intro Section */
+.intro {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+    background-color: var(--light-color);
+}
+
+.intro-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 2rem;
+}
+
+.intro-content img {
+    width: 40%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.intro-content p {
+    width: 20%;
+    height: 100%;
+    flex-grow: 1; 
+    text-align: center; 
+    font-size: 1.5rem; 
+    color: var(--light-color); 
+    margin: 0 1rem;
+    background-color: var(--dark-color); 
+    padding: 2rem; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  height: 300px; 
+  }
+
+/* Latest Blog Posts Carousel */
+.latest-blog-posts {
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--dark-color);
+    color: var(--light-color);
+    position: relative;
+  }
+  
+  .carousel-container {
+    position: relative;
+    overflow: hidden; 
+    width: 100%;
+
+    margin: 0 auto;
+  }
+  
+  .carousel {
+    display: flex;
+    transition: transform 0.5s ease-in-out; 
+    will-change: transform;
+  }
+  
+  .blog-post {
+    flex: 0 0 33.33%; 
+    max-width: 33.33%; 
+    box-sizing: border-box;
+    padding: 1rem;
+  }
+  
+  .blog-post img {
+    width: 100%; 
+    height: auto; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  }
+  
+  .carousel-btn {
+    position: absolute;
+    top: 40%; 
+    transform: translateY(-50%); 
+    background-color: transparent; 
+    border: none;
+    color: var(--primary-color); 
+    font-size: 3rem; 
+    cursor: pointer;
+    z-index: 10; 
+  }
+  
+  .carousel-btn.left {
+    left: 10px; 
+  }
+  
+  .carousel-btn.right {
+    right: 10px; 
+  }
+  
+  /* Add hover effect for better visibility */
+  .carousel-btn:hover {
+    color: var(--light-color); 
+  }
+  
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  .carousel-dot {
+    width: 12px;
+    height: 12px;
+    background-color: var(--light-color);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .carousel-dot.active {
+    background-color: var(--primary-color); 
+  }
+  
+  .carousel-dot:hover {
+    background-color: var(--dark-color); 
+  }
+  .view-all-link {
+    text-align: center;
+    margin-top: 2rem;
+  }
+  
+  .view-all-link a {
+    font-size: 1.2rem;
+    color: var(--light-color); 
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .view-all-link a:hover {
+    background-color: var(--primary-color);
+    color: var(--light-color); 
+    text-decoration: none;
+  }
+  
+  
