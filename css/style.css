@@ -10,8 +10,17 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
+    width: 100%; 
     box-sizing: border-box;
     background-color: var(--primary-color); 
+}
+
+html {
+  overflow-x: hidden; /* Hindre horisontal scrolling */
+}
+* {
+  box-sizing: border-box; /* Unngå at padding/border skaper overskytende bredde */
 }
 
 /* Header Container */
@@ -61,7 +70,7 @@ body {
     text-decoration: underline; 
 }
 
-/* Responsive Design */
+/* Responsive Design header*/
 @media (max-width: 768px) {
     .header-container {
         flex-direction: column;
@@ -83,152 +92,263 @@ body {
 
 /* Intro Section */
 .intro {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2rem;
-    background-color: var(--light-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch; /* Sørg for at elementene strekker seg likt */
+  padding: 2rem;
+  background-color: var(--light-color);
+  max-height: 600px;
+  gap: 2rem;
+
+   
 }
 
 .intro-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    gap: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch; /* Sørg for at elementene strekker seg */
+  width: 100%;
+  gap: 2rem;
+  max-width: 1200px; /* Maks bredde for seksjonen */
+  margin: 0 auto; /* Sørg for at den er midtstilt */
+  width: 100%; /* Tillat at den tar full bredde innenfor maks bredde */
+  box-sizing: border-box; /* For å inkludere padding i bredden */
+
 }
 
 .intro-content img {
-    width: 40%;
-    height: auto;
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 40%; /* Bildene tar 40% av bredden */
+  aspect-ratio: 2 / 3; /* Sørg for at bildene har et fast forhold */
+  object-fit: cover; /* Crop bildene hvis nødvendig */
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
 }
 
 .intro-content p {
-    width: 20%;
-    height: 100%;
-    flex-grow: 1; 
-    text-align: center; 
-    font-size: 1.5rem; 
-    color: var(--light-color); 
-    margin: 0 1rem;
-    background-color: var(--dark-color); 
-    padding: 2rem; 
-    border-radius: 10px; 
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-    display: flex; 
-  justify-content: center; 
-  align-items: center; 
-  height: 300px; 
+  flex: 1; /* Tekstboksen tar opp resterende plass */
+  text-align: center;
+  font-size: 1.5rem;
+  color: var(--light-color);
+  background-color: var(--dark-color);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+  /* Responsive Design intro */
+
+@media (max-width: 768px) {
+  /* Justering av introseksjonen */
+  .intro {
+    flex-direction: column; /* Stable elementene vertikalt */
+    align-items: center; /* Sentraliser elementene */
+    padding: 0rem; /* Reduser padding */
+    max-height: none;
   }
+
+  .intro-content {
+    flex-direction: column; /* Stable innholdet vertikalt */
+    align-items: center; /* Sentraliser elementene */
+    gap: 0rem;
+}
+
+  .intro-content img {
+    width: 75%; /* Mindre bredde for bildene */
+    border-radius: 0%;
+
+  }
+
+  .intro-content p {
+    width: auto; /* Juster bredden automatisk */
+    padding: 0rem; /* Mindre padding */
+    height: 100%;
+    margin: 0%;
+    border-radius: 0%;
+  }
+}
+
 
 /* Latest Blog Posts Carousel */
-.latest-blog-posts {
-    text-align: center;
-    padding: 2rem;
-    background-color: var(--dark-color);
-    color: var(--light-color);
-    position: relative;
-  }
-  
-  .carousel-container {
-    position: relative;
-    overflow: hidden; 
-    width: 100%;
 
-    margin: 0 auto;
-  }
+.latest-blog-posts {
+  text-align: center;
+  padding: 2rem 1rem; /* Mindre padding for bedre justering */
+  background-color: var(--dark-color);
+  color: var(--light-color);
+  position: relative;
+}
+
+.carousel-heading {
+  text-align: center; /* Midtstill overskriften */
+  font-size: 1.8rem; /* Juster størrelse på overskriften */
+  color: var(--light-color); /* Lys farge */
+  margin-bottom: 20px; /* Avstand under overskriften */
+}
+
+.carousel-container {
+  position: relative;
+  display: flex;
+  align-items: center; /* Vertikal sentrering */
+  justify-content: center; /* Horisontal sentrering */
+  padding: 2rem;
+}
+
+.carousel {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  width: 100%;
+  position: relative;
+}
+
+.carousel-item {
+  flex: 0 0 calc(100% / 3); /* 3 items per view */
+  box-sizing: border-box;
+  padding: 10px;
+  text-align: center;
+}
+
+.carousel-link {
+  text-decoration: none; /* Fjern tekstdekorasjon fra lenken */
+  color: inherit; /* Arv farge for tittelen */
+}
+
+.carousel-link:hover .carousel-title {
+  text-decoration: underline; /* Understrek tittelen ved hover */
+}
+
+.carousel-image {
+  width: 100%; /* Full bredde */
+  aspect-ratio: 3 / 2; /* Sørg for 3:2-format */
+  object-fit: cover; /* Crop bildet hvis det er større */
+  border-radius: 10px;
+}
+
+.carousel-title {
+  font-size: 1rem;
+  color: var(--light-color);
+  margin: 10px 0;
+  transition: color 0.3s; /* Smooth hover-effekt */
+}
+
+.carousel-title:hover {
+  color: var(--primary-color); /* Endre farge ved hover */
+}
+
+
+.carousel-btn {
+  position: absolute;
+  top: 50%; /* Vertikal sentrering */
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5); /* Halvtransparent bakgrunn */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 10;
+  height: auto;
+  width: auto;
+}
+
+.carousel-btn:hover {
+  background-color: var(--primary-color); /* Endre bakgrunn ved hover */
+  color: var(--light-color); 
+}
+
+.carousel-btn.left {
+  left: -30px; /* Flytt pilen litt utenfor karusellen */
+}
+
+.carousel-btn.right {
+  right: -30px; /* Flytt pilen litt utenfor karusellen */
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px; /* Juster avstand til dots */
+}
+
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #ccc;
+  border-radius: 50%;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.carousel-dot.active {
+  background-color: #264653;
+}
+
+.view-all-link {
+  text-align: center;
+  margin-top: 30px; 
+  margin-bottom: 30px;
+}
+
+.view-all-link a {
+  font-size: 1.2rem;
+  color: var(--light-color);
+  font-weight: bold;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.view-all-link a:hover {
+  background-color: var(--primary-color);
+  color: var(--light-color); /* Endre tekstfarge ved hover */
+  text-decoration: none;
+}
+
+
+/* Responsive Design carousel */
+@media (max-width: 768px) {
   
+  /* Justering av karusellen */
+  .latest-blog-posts {
+    padding: 1rem; /* Mindre padding rundt karusellen */
+  }
+
   .carousel {
-    display: flex;
-    transition: transform 0.5s ease-in-out; 
-    will-change: transform;
+    max-height: auto; /* Fjern fast høyde */
   }
-  
-  .blog-post {
-    flex: 0 0 33.33%; 
-    max-width: 33.33%; 
-    box-sizing: border-box;
-    padding: 1rem;
+
+  .carousel-item {
+    flex: 0 0 100%; /* En post tar opp hele bredden */
+    padding: 0.5rem; /* Mindre padding mellom elementer */
   }
-  
-  .blog-post img {
-    width: 100%; 
-    height: auto; 
-    border-radius: 10px; 
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+
+  .carousel-title {
+    font-size: 1rem; /* Mindre tekststørrelse */
+    margin-top: 0.5rem; /* Mindre avstand over tittelen */
   }
-  
+
   .carousel-btn {
-    position: absolute;
-    top: 40%; 
-    transform: translateY(-50%); 
-    background-color: transparent; 
-    border: none;
-    color: var(--primary-color); 
-    font-size: 3rem; 
-    cursor: pointer;
-    z-index: 10; 
+    display: none; /* Skjul knappene på mobil for å fokusere på swipe */
   }
-  
-  .carousel-btn.left {
-    left: 10px; 
-  }
-  
-  .carousel-btn.right {
-    right: 10px; 
-  }
-  
-  /* Add hover effect for better visibility */
-  .carousel-btn:hover {
-    color: var(--light-color); 
-  }
-  
+
   .carousel-dots {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 1rem;
+    margin-top: 1rem; /* Juster avstand til dots */
   }
-  
-  .carousel-dot {
-    width: 12px;
-    height: 12px;
-    background-color: var(--light-color);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+
+
+  /* Responsive Design footer */
+  .footer-container {
+    flex-direction: column; /* Stable footer-innhold vertikalt */
+    text-align: center; /* Sentrer teksten */
+    gap: 1rem; /* Avstand mellom elementer */
   }
-  
-  .carousel-dot.active {
-    background-color: var(--primary-color); 
+
+  .footer-container a {
+    font-size: 0.9rem; /* Mindre tekststørrelse */
   }
-  
-  .carousel-dot:hover {
-    background-color: var(--dark-color); 
-  }
-  .view-all-link {
-    text-align: center;
-    margin-top: 2rem;
-  }
-  
-  .view-all-link a {
-    font-size: 1.2rem;
-    color: var(--light-color); 
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 8px;
-    padding: 0.5rem 1rem;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  .view-all-link a:hover {
-    background-color: var(--primary-color);
-    color: var(--light-color); 
-    text-decoration: none;
-  }
-  
-  
+}
+

@@ -1,95 +1,135 @@
-// Dynamically load the latest blog posts component
-fetch("components/latest-blog-posts.html")
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    return response.text();
-  })
-  .then((html) => {
-    document.getElementById("latest-blog-posts").innerHTML = html;
-    console.log("Carousel content loaded");
+const blogContainer = document.getElementById("latest-blog-posts");
+let posts = [];
+let itemsPerView = 3; // Standard antall elementer per visning
+let touchStartX = 0;
+let touchEndX = 0;
 
-    // Wait until the content is fully loaded, then initialize the carousel
+// Sjekk om vi er på mobilskjerm
+const mediaQuery = window.matchMedia("(max-width: 768px)");
+function updateItemsPerView() {
+    itemsPerView = mediaQuery.matches ? 1 : 3; // Én post på mobil, ellers tre
+}
+mediaQuery.addEventListener("change", updateItemsPerView);
+updateItemsPerView();
+
+async function fetchBlogPosts() {
+    try {
+        const response = await fetch('https://annhau.no/blog/wp-json/wp/v2/posts?per_page=5&_embed');
+        posts = await response.json();
+
+        renderCarousel();
+    } catch (error) {
+        console.error('Error fetching blog posts:', error);
+        blogContainer.innerHTML = `<p>Failed to load blog posts. Please try again later.</p>`;
+    }
+}
+
+function renderCarousel() {
+    const carouselHTML = `
+        <h2 class="carousel-heading">Latest blog posts</h2>
+        <div class="carousel-container">
+            <button class="carousel-btn left" aria-label="Previous">&#10094;</button>
+            <div class="carousel">
+                ${posts.map(post => {
+                    const image = post._embedded?.['wp:featuredmedia']?.[0]?.source_url || '';
+                    return `
+                        <div class="carousel-item">
+                            <a href="${post.link}" target="_blank" class="carousel-link">
+                                ${image ? `<img src="${image}" alt="${post.title.rendered}" class="carousel-image">` : ''}
+                                <h3 class="carousel-title">${post.title.rendered}</h3>
+                            </a>
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+            <button class="carousel-btn right" aria-label="Next">&#10095;</button>
+        </div>
+        <div class="carousel-dots"></div>
+        <div class="view-all-link">
+            <a href="view-all-blog-posts.html">View all blog posts</a>
+        </div>
+    `;
+
+    blogContainer.innerHTML = carouselHTML;
     initCarousel();
-  })
-  .catch((error) => console.error("Failed to load carousel:", error));
+}
 
-  function initCarousel() {
-    const carousel = document.querySelector(".carousel");
-    const leftButton = document.querySelector(".carousel-btn.left");
-    const rightButton = document.querySelector(".carousel-btn.right");
-    const dotsContainer = document.querySelector(".carousel-dots");
-  
-    if (!carousel || !leftButton || !rightButton || !dotsContainer) {
-      console.error("Carousel or buttons/dots not found in the DOM");
-      return;
-    }
-  
-    let currentIndex = 0;
-    const itemsPerView = 3; // Number of items visible at once
-    const totalItems = carousel.children.length;
-    const maxIndex = totalItems - itemsPerView; // The maximum starting index
-    const totalDots = 4; // Always 4 dots
-  
-    // Create exactly 4 dots
-    for (let i = 0; i < totalDots; i++) {
+function initCarousel() {
+  const carousel = document.querySelector(".carousel");
+  const leftButton = document.querySelector(".carousel-btn.left");
+  const rightButton = document.querySelector(".carousel-btn.right");
+  const dotsContainer = document.querySelector(".carousel-dots");
+
+  let currentIndex = 0;
+  const totalItems = posts.length;
+
+  // Dynamisk beregn antall dots basert på skjermstørrelse
+  const totalDots = mediaQuery.matches ? totalItems : 3; // 5 dots på mobil, 3 dots på desktop
+  const itemsPerDot = mediaQuery.matches ? 1 : 1; // På store skjermer overlapper dots med 1 item
+
+  dotsContainer.innerHTML = "";
+  for (let i = 0; i < totalDots; i++) {
       const dot = document.createElement("div");
       dot.classList.add("carousel-dot");
-      if (i === 0) dot.classList.add("active"); // Highlight the first dot initially
+      if (i === 0) dot.classList.add("active");
       dotsContainer.appendChild(dot);
-  
-      // Add click event to navigate to the corresponding section of the carousel
+
       dot.addEventListener("click", () => {
-        // Calculate the currentIndex for the dot clicked
-        currentIndex = Math.min(i, maxIndex); // Prevent going out of bounds
-        updateCarousel();
+          // Oppdater currentIndex basert på dot-klikk
+          currentIndex = i; // Hver dot starter fra én post av gangen
+          updateCarousel();
       });
-    }
-  
-    const updateCarousel = () => {
-      const offset = currentIndex * -100 / itemsPerView; // Calculate the offset
-      carousel.style.transform = `translateX(${offset}%)`;
-  
-      // Update the active state of dots
-      document.querySelectorAll(".carousel-dot").forEach((dot, index) => {
-        dot.classList.toggle("active", index === currentIndex);
-      });
-    };
-  
-    // Right button event
-    rightButton.addEventListener("click", () => {
-      if (currentIndex < maxIndex) {
-        currentIndex++;
-        updateCarousel();
-      }
-    });
-  
-    // Left button event
-    leftButton.addEventListener("click", () => {
-      if (currentIndex > 0) {
-        currentIndex--;
-        updateCarousel();
-      }
-    });
-  
-    console.log("Carousel initialized successfully");
   }
-  
-  // Dynamically load the latest blog posts component
-  fetch("components/latest-blog-posts.html")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+
+  const updateCarousel = () => {
+      const offset = (currentIndex * -100) / itemsPerView; // Juster for antall elementer per visning
+      carousel.style.transform = `translateX(${offset}%)`;
+
+      // Oppdater aktive dots
+      dotsContainer.querySelectorAll(".carousel-dot").forEach((dot, index) => {
+          dot.classList.toggle("active", index === currentIndex);
+      });
+  };
+
+  // Håndter knappene
+  rightButton.addEventListener("click", () => {
+      if (currentIndex < totalItems - itemsPerView) {
+          currentIndex++;
+          updateCarousel();
       }
-      return response.text();
-    })
-    .then((html) => {
-      document.getElementById("latest-blog-posts").innerHTML = html;
-      console.log("Carousel content loaded");
-  
-      // Initialize the carousel after content is loaded
-      initCarousel();
-    })
-    .catch((error) => console.error("Failed to load carousel:", error));
-  
+  });
+
+  leftButton.addEventListener("click", () => {
+      if (currentIndex > 0) {
+          currentIndex--;
+          updateCarousel();
+      }
+  });
+
+  // Legg til swipe-støtte
+  carousel.addEventListener("touchstart", (e) => {
+      touchStartX = e.touches[0].clientX;
+  });
+
+  carousel.addEventListener("touchmove", (e) => {
+      touchEndX = e.touches[0].clientX;
+  });
+
+  carousel.addEventListener("touchend", () => {
+      const swipeThreshold = 50; // Minimum avstand for å registrere swipe
+      if (touchStartX - touchEndX > swipeThreshold && currentIndex < totalItems - itemsPerView) {
+          currentIndex++;
+      } else if (touchEndX - touchStartX > swipeThreshold && currentIndex > 0) {
+          currentIndex--;
+      }
+      updateCarousel();
+  });
+
+  // Sett opp startposisjon
+  updateCarousel();
+}
+
+
+
+// Start henting av bloggposter
+fetchBlogPosts();
