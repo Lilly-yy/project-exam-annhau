@@ -1,29 +1,67 @@
-// Fetch and display WordPress blog posts
-const blogContainer = document.getElementById('blog-posts'); // Your container for blog posts
+const blogContainer = document.getElementById('blog-container');
+const loadMoreButton = document.getElementById('load-more');
+const filters = document.querySelectorAll('.filters button');
 
+let posts = [];
+let visiblePosts = 10; 
+let currentCategory = ''; 
+
+// Hent innlegg fra WordPress REST API
 async function fetchBlogPosts() {
-  try {
-    const response = await fetch('https://annhau.no/blog/wp-json/wp/v2/posts?per_page=5&_embed');
-    const posts = await response.json();
-
-    // Dynamically generate HTML for each post
-    blogContainer.innerHTML = posts
-      .map(post => {
-        const image = post._embedded?.['wp:featuredmedia']?.[0]?.source_url || '';
-        return `
-          <article class="blog-post">
-            ${image ? `<img src="${image}" alt="${post.title.rendered}" class="post-image">` : ''}
-            <h2>${post.title.rendered}</h2>
-            <p>${post.excerpt.rendered}</p>
-            <a href="${post.link}" target="_blank">Read More</a>
-          </article>
-        `;
-      })
-      .join('');
-  } catch (error) {
-    console.error('Error fetching blog posts:', error);
-    blogContainer.innerHTML = `<p>Failed to load blog posts. Please try again later.</p>`;
-  }
+    try {
+        const response = await fetch('https://annhau.no/blog/wp-json/wp/v2/posts?per_page=100&_embed');
+        posts = await response.json();
+        renderPosts(); 
+    } catch (error) {
+        console.error('Error fetching blog posts:', error);
+        blogContainer.innerHTML = `<p>Failed to load blog posts. Please try again later.</p>`;
+    }
 }
 
+// Render blogginnlegg
+function renderPosts() {
+    blogContainer.innerHTML = ''; 
+    const filteredPosts = currentCategory
+        ? posts.filter(post => post.categories.includes(parseInt(currentCategory))) 
+        : posts; 
+
+    const postsToShow = filteredPosts.slice(0, visiblePosts); 
+
+    postsToShow.forEach(post => {
+        const image = post._embedded?.['wp:featuredmedia']?.[0]?.source_url || '';
+        const postHTML = `
+            <a href="blog-post.html?id=${post.id}" class="blog-post">
+                <img src="${image}" alt="${post.title.rendered}">
+                <h2>${post.title.rendered}</h2>
+            </a>
+        `;
+        blogContainer.innerHTML += postHTML;
+    });
+
+    // Skjul "Load more"-knappen hvis alle innlegg vises
+    if (visiblePosts >= filteredPosts.length) {
+        loadMoreButton.style.display = 'none';
+    } else {
+        loadMoreButton.style.display = 'block';
+    }
+}
+
+// Håndter "Load more"-knappen
+loadMoreButton.addEventListener('click', () => {
+    visiblePosts += 6; 
+    renderPosts();
+});
+
+// Håndter filtrering
+filters.forEach(filter => {
+    filter.addEventListener('click', () => {
+        currentCategory = filter.dataset.category === '15' ? '' : filter.dataset.category; // 'All' viser alt
+        visiblePosts = 10; 
+        filters.forEach(btn => btn.classList.remove('active')); 
+        filter.classList.add('active'); 
+        renderPosts();
+    });
+});
+
+// Start henting av innlegg
 fetchBlogPosts();

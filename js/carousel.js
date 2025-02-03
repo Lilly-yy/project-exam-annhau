@@ -34,7 +34,7 @@ function renderCarousel() {
                     const image = post._embedded?.['wp:featuredmedia']?.[0]?.source_url || '';
                     return `
                         <div class="carousel-item">
-                            <a href="${post.link}" target="_blank" class="carousel-link">
+                            <a href="blog-post.html?id=${post.id}" class="carousel-link">
                                 ${image ? `<img src="${image}" alt="${post.title.rendered}" class="carousel-image">` : ''}
                                 <h3 class="carousel-title">${post.title.rendered}</h3>
                             </a>

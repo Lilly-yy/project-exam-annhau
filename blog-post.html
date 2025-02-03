@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Post</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/main.js" defer></script>
+  <script src="js/blog-post.js" defer></script>
+  <script src="js/carousel.js" defer></script>
+
+</head>
+<body>
+  <div id="header"></div>
+
+  <main>
+    <article id="blog-post" class="blog-post">
+      <div class="blog-header">
+        <h1>Loading...</h1>
+      </div>
+      <div class="blog-content">
+        <div class="blog-intro">
+          <img src="" alt="Primary image" id="main-image">
+          <div id="intro-text"></div>
+        </div>
+        <div id="additional-content"></div>
+      </div>
+    </article>
+
+    <section id="comments-section">
+      <h2>Leave a comment</h2>
+      <form id="comment-form">
+        <input type="text" id="comment-name" placeholder="Your name" required>
+        <textarea id="comment-text" placeholder="Write your comment here..." required></textarea>
+        <button type="submit">Send comment</button>
+      </form>
+      <div id="comments-list">
+        <h3>Comments</h3>
+        <ul id="comments"></ul>
+      </div>
+    </section>
+
+    <div id="latest-blog-posts"></div>
+      
+
+
+  </main>
+
+  <div id="image-modal" class="modal">
+    <div class="modal-content">
+      <img id="modal-image" src="" alt="Enlarged view">
+    </div>
+  </div>
+
+  <div id="footer"></div>
+
+
+</body>
+</html>

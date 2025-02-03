@@ -7,7 +7,7 @@
 
 /* General styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Lato', Arial, sans-serif; 
     margin: 0;
     padding: 0;
     overflow-x: hidden;
@@ -16,15 +16,31 @@ body {
     background-color: var(--primary-color); 
 }
 
+main {
+  background-color: var(--primary-color); 
+  }
+
+
+h1 {
+  text-align: center;
+  color: var(--dark-color);
+  margin-bottom: 2rem;
+}
+
+h2 {
+  text-align: center;
+  color: var(--dark-color);
+}
+
 html {
-  overflow-x: hidden; /* Hindre horisontal scrolling */
+  overflow-x: hidden; 
 }
 * {
-  box-sizing: border-box; /* Unngå at padding/border skaper overskytende bredde */
+  box-sizing: border-box; 
 }
 
 /* Header Container */
-.header-container, .footer-container {
+.header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -70,31 +86,176 @@ html {
     text-decoration: underline; 
 }
 
+.nav-links a.active {
+  font-weight: bold;
+  text-decoration: underline;
+  color: var(--primary-color); 
+}
+
 /* Responsive Design header*/
 @media (max-width: 768px) {
     .header-container {
         flex-direction: column;
         height: auto;
-        padding: 1rem;
+        padding-inline-start : 0px;
     }
 
-    .nav-links {
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-    }
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--light-color); 
+  font-size: 1.5rem; 
+  font-weight: normal;
+}
 
     .logo img {
-        max-height: 50px; 
         width: auto;
     }
 }
+
+/* Bottom Section */
+.bottom-section {
+  height: 300px; 
+  overflow: hidden; 
+  position: relative;
+}
+
+.scroll-container {
+  height: 100%;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch; 
+}
+
+.scroll-container::-webkit-scrollbar {
+  display: none; 
+}
+
+.scroll-container {
+  scrollbar-width: none; 
+}
+
+
+
+.scroll-container img {
+  height: auto;
+  width: 100%; 
+  object-fit: cover; 
+}
+
+
+/* Footer styles */
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--primary-color);
+  padding: 1rem 2rem;
+  flex-wrap: wrap; 
+  color: var(--light-color);
+  gap: 1rem; 
+}
+
+.footer-logo img {
+  max-height: 60px;
+  width: auto;
+}
+
+.footer-container p {
+  margin: 0;
+  font-size: 1rem;
+  text-align: center;
+  width: 100%; 
+  bottom: 0; 
+  left: 0;
+  right: 0;
+  background-color: var(--primary-color);
+  padding: 0.5rem 0; 
+}
+
+.footer-nav,
+.social-links {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-nav a,
+.social-links a {
+  text-decoration: none;
+  color: var(--light-color);
+  font-size: 1rem;
+}
+
+.footer-nav a:hover,
+.social-links a:hover {
+  text-decoration: underline;
+}
+
+.social-links a {
+  font-size: 1.5rem; 
+}
+
+/* Responsive design for small screens */
+@media (max-width: 768px) {
+  .footer-container {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      height: auto;
+      gap: 1.5rem;
+  }
+
+  .footer-logo img {
+    max-height: 70px;
+  }
+
+  .footer-nav,
+  .social-links {
+      flex-direction: column; 
+      align-items: center; 
+      gap: 1.5rem; 
+  }
+ 
+
+  .footer-container p {
+      position: static; 
+      margin-top: 1rem;
+  }
+
+    /* Responsive Design footer */
+    .footer-container {
+      flex-direction: column; 
+      text-align: center; 
+    }
+  
+    .footer-container a {
+      font-size: 1.5rem; 
+    }
+
+    .social-links a {
+      font-size: 2rem; 
+    }
+  }
+  
+
+
+
+
 
 /* Intro Section */
 .intro {
   display: flex;
   justify-content: space-between;
-  align-items: stretch; /* Sørg for at elementene strekker seg likt */
+  align-items: stretch; 
   padding: 2rem;
   background-color: var(--light-color);
   max-height: 600px;
@@ -106,27 +267,27 @@ html {
 .intro-content {
   display: flex;
   justify-content: space-between;
-  align-items: stretch; /* Sørg for at elementene strekker seg */
+  align-items: stretch; 
   width: 100%;
   gap: 2rem;
-  max-width: 1200px; /* Maks bredde for seksjonen */
-  margin: 0 auto; /* Sørg for at den er midtstilt */
-  width: 100%; /* Tillat at den tar full bredde innenfor maks bredde */
-  box-sizing: border-box; /* For å inkludere padding i bredden */
+  max-width: 1200px; 
+  margin: 0 auto; 
+  width: 100%; 
+  box-sizing: border-box; 
 
 }
 
 .intro-content img {
-  width: 40%; /* Bildene tar 40% av bredden */
-  aspect-ratio: 2 / 3; /* Sørg for at bildene har et fast forhold */
-  object-fit: cover; /* Crop bildene hvis nødvendig */
+  width: 40%; 
+  aspect-ratio: 2 / 3; 
+  object-fit: cover; 
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
 }
 
 .intro-content p {
-  flex: 1; /* Tekstboksen tar opp resterende plass */
+  flex: 1; 
   text-align: center;
   font-size: 1.5rem;
   color: var(--light-color);
@@ -142,33 +303,37 @@ html {
   /* Responsive Design intro */
 
 @media (max-width: 768px) {
-  /* Justering av introseksjonen */
   .intro {
-    flex-direction: column; /* Stable elementene vertikalt */
-    align-items: center; /* Sentraliser elementene */
-    padding: 0rem; /* Reduser padding */
+    flex-direction: column; 
+    align-items: center; 
+    padding: 0rem; 
     max-height: none;
   }
 
   .intro-content {
-    flex-direction: column; /* Stable innholdet vertikalt */
-    align-items: center; /* Sentraliser elementene */
+    flex-direction: column; 
+    align-items: center; 
     gap: 0rem;
 }
 
   .intro-content img {
-    width: 75%; /* Mindre bredde for bildene */
+    width: 75%; 
     border-radius: 0%;
 
   }
 
   .intro-content p {
-    width: auto; /* Juster bredden automatisk */
-    padding: 0rem; /* Mindre padding */
+    width: auto; 
     height: 100%;
     margin: 0%;
     border-radius: 0%;
+    margin-bottom: 20px;
   }
+
+  .intro-content img:last-of-type {
+    display: none; 
+  }
+
 }
 
 
@@ -176,25 +341,28 @@ html {
 
 .latest-blog-posts {
   text-align: center;
-  padding: 2rem 1rem; /* Mindre padding for bedre justering */
+  padding: 2rem 1rem; 
   background-color: var(--dark-color);
   color: var(--light-color);
   position: relative;
 }
 
 .carousel-heading {
-  text-align: center; /* Midtstill overskriften */
-  font-size: 1.8rem; /* Juster størrelse på overskriften */
-  color: var(--light-color); /* Lys farge */
-  margin-bottom: 20px; /* Avstand under overskriften */
+  text-align: center; 
+  font-size: 1.8rem; 
+  color: var(--light-color); 
+  margin-bottom: 20px; 
 }
 
 .carousel-container {
   position: relative;
   display: flex;
-  align-items: center; /* Vertikal sentrering */
-  justify-content: center; /* Horisontal sentrering */
+  align-items: center; 
+  justify-content: center; 
   padding: 2rem;
+  max-width: 1200px; 
+    margin: 0 auto; 
+    overflow: hidden; 
 }
 
 .carousel {
@@ -205,25 +373,25 @@ html {
 }
 
 .carousel-item {
-  flex: 0 0 calc(100% / 3); /* 3 items per view */
+  flex: 0 0 calc(100% / 3); 
   box-sizing: border-box;
   padding: 10px;
   text-align: center;
 }
 
 .carousel-link {
-  text-decoration: none; /* Fjern tekstdekorasjon fra lenken */
-  color: inherit; /* Arv farge for tittelen */
+  text-decoration: none; 
+  color: inherit; 
 }
 
 .carousel-link:hover .carousel-title {
-  text-decoration: underline; /* Understrek tittelen ved hover */
+  text-decoration: underline; 
 }
 
 .carousel-image {
-  width: 100%; /* Full bredde */
-  aspect-ratio: 3 / 2; /* Sørg for 3:2-format */
-  object-fit: cover; /* Crop bildet hvis det er større */
+  width: 100%; 
+  aspect-ratio: 3 / 2; 
+  object-fit: cover; 
   border-radius: 10px;
 }
 
@@ -231,19 +399,19 @@ html {
   font-size: 1rem;
   color: var(--light-color);
   margin: 10px 0;
-  transition: color 0.3s; /* Smooth hover-effekt */
+  transition: color 0.3s; 
 }
 
 .carousel-title:hover {
-  color: var(--primary-color); /* Endre farge ved hover */
+  color: var(--primary-color); 
 }
 
 
 .carousel-btn {
   position: absolute;
-  top: 50%; /* Vertikal sentrering */
+  top: 50%; 
   transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5); /* Halvtransparent bakgrunn */
+  background-color: rgba(0, 0, 0, 0.5); 
   color: white;
   border: none;
   padding: 10px 15px;
@@ -255,22 +423,22 @@ html {
 }
 
 .carousel-btn:hover {
-  background-color: var(--primary-color); /* Endre bakgrunn ved hover */
+  background-color: var(--primary-color); 
   color: var(--light-color); 
 }
 
 .carousel-btn.left {
-  left: -30px; /* Flytt pilen litt utenfor karusellen */
+  left: 0px; 
 }
 
 .carousel-btn.right {
-  right: -30px; /* Flytt pilen litt utenfor karusellen */
+  right: 0px; 
 }
 
 .carousel-dots {
   display: flex;
   justify-content: center;
-  margin-top: 10px; /* Juster avstand til dots */
+  margin-top: 10px; 
 }
 
 .carousel-dot {
@@ -304,7 +472,7 @@ html {
 
 .view-all-link a:hover {
   background-color: var(--primary-color);
-  color: var(--light-color); /* Endre tekstfarge ved hover */
+  color: var(--light-color); 
   text-decoration: none;
 }
 
@@ -312,43 +480,427 @@ html {
 /* Responsive Design carousel */
 @media (max-width: 768px) {
   
-  /* Justering av karusellen */
   .latest-blog-posts {
-    padding: 1rem; /* Mindre padding rundt karusellen */
+    padding: 1rem; 
   }
 
   .carousel {
-    max-height: auto; /* Fjern fast høyde */
+    max-height: auto; 
   }
 
   .carousel-item {
-    flex: 0 0 100%; /* En post tar opp hele bredden */
-    padding: 0.5rem; /* Mindre padding mellom elementer */
+    flex: 0 0 100%; 
+    padding: 0.5rem; 
   }
 
   .carousel-title {
-    font-size: 1rem; /* Mindre tekststørrelse */
-    margin-top: 0.5rem; /* Mindre avstand over tittelen */
+    font-size: 1rem; 
+    margin-top: 0.5rem; 
   }
 
   .carousel-btn {
-    display: none; /* Skjul knappene på mobil for å fokusere på swipe */
+    display: none; 
   }
 
   .carousel-dots {
-    margin-top: 1rem; /* Juster avstand til dots */
+    margin-top: 1rem; 
   }
 
 
-  /* Responsive Design footer */
-  .footer-container {
-    flex-direction: column; /* Stable footer-innhold vertikalt */
-    text-align: center; /* Sentrer teksten */
-    gap: 1rem; /* Avstand mellom elementer */
+}
+/* About Me Section */
+.about-me-content {
+  display: flex;
+  align-items: stretch; 
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto; 
+  border-radius: 10px; 
+  overflow: hidden; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.about-me-text {
+  flex: 1; 
+  background-color: var(--light-color); 
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  color: var(--text-color);
+  font-size: 1.2rem;
+}
+
+.about-me-text h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--dark-color);
+  text-align: center;
+}
+
+.about-me-image {
+  flex: 1; 
+}
+
+.about-me-image img {
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+}
+
+/* Responsiv Design */
+@media (max-width: 768px) {
+  .about-me-content {
+    flex-direction: column; 
+    border-radius: 0%;
   }
 
-  .footer-container a {
-    font-size: 0.9rem; /* Mindre tekststørrelse */
+  .about-me-text {
+    padding: 1.5rem; 
+  }
+
+  .about-me-image img {
+    height: auto; 
   }
 }
 
+
+/* Contact Section */
+
+.contact-header {
+  background-color: var(--primary-color);
+  padding: 1rem;
+}
+
+.contact-container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  margin: 2rem auto;
+  max-width: 1200px;
+  gap: 2rem;
+  background-color: var(--primary-color);
+  padding: 2rem;
+
+}
+
+.info-box,
+.form-box {
+  background-color: var(--light-color);
+  border-radius: 20px;
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
+  overflow: hidden;
+  
+}
+.info-content {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  
+}
+
+.info-box h2,
+.form-box h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  text-align: center; 
+  color: var(--dark-color);
+  padding: 2rem;
+  margin-bottom: 0; 
+  padding-bottom: 0;
+}
+
+.info-box img {
+  margin-top: auto; 
+  width: 100%;
+  height: auto; 
+  object-fit: cover; 
+  border-radius: 0 0 20px 20px; 
+}
+.info-box h2, p {
+  color: var(--dark-color);
+}
+
+.info-box p {
+  padding: 2rem;
+}
+
+.form-box h2, label {
+  color: var(--dark-color);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center; 
+  padding: 2rem;
+}
+
+.form-box form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: flex-start; 
+  padding: 2rem;
+}
+
+form label {
+  margin-top: 1rem;
+  margin-left: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+
+form button {
+  margin-top: 1rem;
+}
+
+input,
+textarea {
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+textarea {
+  resize: none;
+  height: 120px;
+}
+
+button {
+  background-color: #264653;
+  color: white;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem; 
+}
+
+button:hover {
+  background-color: #1A6862;
+}
+
+#error-messages {
+  margin-top: 1rem;
+  color: var(--dark-color);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .contact-container {
+    flex-direction: column;
+    padding: 0rem;
+    gap: 0rem;
+  }
+
+  .info-box,
+  .form-box {
+    width: 100%;
+  margin: 0 0; 
+  border-radius: 0px;
+  }
+
+  .info-box img {
+    height: 200px; 
+    border-radius: 0px;
+  }
+
+}
+
+/* Blog posts overview */
+.blog-overview {
+  padding: 2rem;
+  background-color: var(--primary-color);
+  text-align: center;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.blog-overview-top {
+  background-color: var(--light-color) ;
+  
+}
+
+.blog-overview-top h1 {
+padding-top: 1rem;
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+
+}
+
+.filters button {
+  padding: 0.5rem 1rem;
+  background-color: var(--light-color);
+  color: var(--dark-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.filters button:hover {
+  background-color: var(--dark-color);
+  color: var(--light-color);
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  margin: 0 auto;
+  margin-bottom: 2rem;
+  background-color: var(--dark-color);
+  padding: 1rem;
+}
+
+
+
+.blog-post {
+  background-color: var(--light-color);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.blog-overview .blog-post:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.blog-post-page .blog-post:hover {
+  transform: none; 
+  box-shadow: none;
+}
+
+
+.blog-post img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  object-position: 50% 25%;
+}
+
+.blog-post h2 {
+  font-size: 1rem;
+  color: var(--dark-color);
+  padding: 0.5rem;
+}
+
+.load-more {
+  margin: 20px auto;
+  padding: 0.7rem 2rem;
+  background-color: var(--dark-color);
+  color: var(--light-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  text-align: center;
+  
+}
+
+.load-more:hover {
+  background-color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+  .blog-overview {
+    padding: 0%;  
+  }
+}
+
+#comments-section {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: var(--light-color);
+  border-radius: 8px;
+}
+
+#comment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#comment-form input, #comment-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--dark-color);
+  border-radius: 5px;
+}
+
+#comment-form button {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#comments-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+#comments-list li {
+  background: white;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+
+/* Style for the modal - hidden by default */
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8); 
+
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; 
+}
+
+/* Active class to show the modal */
+.modal.active {
+  display: flex;
+}
+
+/* Style for the modal content (the image) */
+.modal-content {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+  background: var(--text-color);
+  object-fit: contain;
+}
+
+/* Ensure modal content does not take up unnecessary space */
+.modal img {
+  display: block;
+  width: auto;
+  max-width: 90%;
+  height: auto;
+  max-height: 90%;
+  margin: auto;
+  border-radius: 10px;
+}
