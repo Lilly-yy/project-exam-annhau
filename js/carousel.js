@@ -55,79 +55,86 @@ function renderCarousel() {
 }
 
 function initCarousel() {
-  const carousel = document.querySelector(".carousel");
-  const leftButton = document.querySelector(".carousel-btn.left");
-  const rightButton = document.querySelector(".carousel-btn.right");
-  const dotsContainer = document.querySelector(".carousel-dots");
+    const carousel = document.querySelector(".carousel");
+    const leftButton = document.querySelector(".carousel-btn.left");
+    const rightButton = document.querySelector(".carousel-btn.right");
+    const dotsContainer = document.querySelector(".carousel-dots");
 
-  let currentIndex = 0;
-  const totalItems = posts.length;
+    let currentIndex = 0;
+    const totalItems = posts.length;
 
-  // Dynamisk beregn antall dots basert på skjermstørrelse
-  const totalDots = mediaQuery.matches ? totalItems : 3; // 5 dots på mobil, 3 dots på desktop
-  const itemsPerDot = mediaQuery.matches ? 1 : 1; // På store skjermer overlapper dots med 1 item
+    // Dynamisk antall dots
+    const totalDots = Math.ceil(totalItems / itemsPerView);
 
-  dotsContainer.innerHTML = "";
-  for (let i = 0; i < totalDots; i++) {
-      const dot = document.createElement("div");
-      dot.classList.add("carousel-dot");
-      if (i === 0) dot.classList.add("active");
-      dotsContainer.appendChild(dot);
+    // Lag dots
+    dotsContainer.innerHTML = "";
+    for (let i = 0; i < totalDots; i++) {
+        const dot = document.createElement("div");
+        dot.classList.add("carousel-dot");
+        if (i === 0) dot.classList.add("active");
+        dotsContainer.appendChild(dot);
 
-      dot.addEventListener("click", () => {
-          // Oppdater currentIndex basert på dot-klikk
-          currentIndex = i; // Hver dot starter fra én post av gangen
-          updateCarousel();
-      });
-  }
+        dot.addEventListener("click", () => {
+            currentIndex = i * itemsPerView;
+            updateCarousel();
+        });
+    }
 
-  const updateCarousel = () => {
-      const offset = (currentIndex * -100) / itemsPerView; // Juster for antall elementer per visning
-      carousel.style.transform = `translateX(${offset}%)`;
+    const updateCarousel = () => {
+        const offset = (currentIndex * -100) / itemsPerView;
+        carousel.style.transform = `translateX(${offset}%)`;
 
-      // Oppdater aktive dots
-      dotsContainer.querySelectorAll(".carousel-dot").forEach((dot, index) => {
-          dot.classList.toggle("active", index === currentIndex);
-      });
-  };
+        // Oppdater dots
+        dotsContainer.querySelectorAll(".carousel-dot").forEach((dot, index) => {
+            dot.classList.toggle("active", index === Math.floor(currentIndex / itemsPerView));
+        });
+    };
 
-  // Håndter knappene
-  rightButton.addEventListener("click", () => {
-      if (currentIndex < totalItems - itemsPerView) {
-          currentIndex++;
-          updateCarousel();
-      }
-  });
+    // Knapp-logikk
+    rightButton.addEventListener("click", () => {
+        if (currentIndex < totalItems - itemsPerView) {
+            currentIndex++;
+            updateCarousel();
+        }
+    });
 
-  leftButton.addEventListener("click", () => {
-      if (currentIndex > 0) {
-          currentIndex--;
-          updateCarousel();
-      }
-  });
+    leftButton.addEventListener("click", () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateCarousel();
+        }
+    });
 
-  // Legg til swipe-støtte
-  carousel.addEventListener("touchstart", (e) => {
-      touchStartX = e.touches[0].clientX;
-  });
+    // Swipe-logikk
+    let touchStartX = 0;
+    let touchEndX = 0;
 
-  carousel.addEventListener("touchmove", (e) => {
-      touchEndX = e.touches[0].clientX;
-  });
+    carousel.addEventListener("touchstart", (e) => {
+        touchStartX = e.touches[0].clientX;
+    });
 
-  carousel.addEventListener("touchend", () => {
-      const swipeThreshold = 50; // Minimum avstand for å registrere swipe
-      if (touchStartX - touchEndX > swipeThreshold && currentIndex < totalItems - itemsPerView) {
-          currentIndex++;
-      } else if (touchEndX - touchStartX > swipeThreshold && currentIndex > 0) {
-          currentIndex--;
-      }
-      updateCarousel();
-  });
+    carousel.addEventListener("touchend", (e) => {
+        touchEndX = e.changedTouches[0].clientX;
+        handleSwipe();
+    });
 
-  // Sett opp startposisjon
-  updateCarousel();
+    const handleSwipe = () => {
+        const swipeDistance = touchStartX - touchEndX;
+
+        if (swipeDistance > 50 && currentIndex < totalItems - itemsPerView) {
+            // Swipe left
+            currentIndex++;
+        } else if (swipeDistance < -50 && currentIndex > 0) {
+            // Swipe right
+            currentIndex--;
+        }
+        updateCarousel();
+    };
+
+    // Initial oppdatering
+    updateCarousel();
 }
+
 
 
 
