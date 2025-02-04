@@ -49,7 +49,7 @@ async function fetchBlogPost() {
         const post = await response.json();
 
         // Update page title
-        document.title = `Into the Woods | ${post.title.rendered}`;
+        document.title = `${post.title.rendered} |Into the Woods`;
 
         renderBlogPost(post);
     } catch (error) {
