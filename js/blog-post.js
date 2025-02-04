@@ -16,14 +16,29 @@ const WP_API_URL = "https://annhau.no/blog/wp-json/wp/v2/comments";
 const WP_CUSTOM_COMMENT_URL = "https://annhau.no/blog/wp-json/custom/v1/comment";
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Last inn blogginnlegget og kommentarer
     fetchBlogPost();
     loadComments();
+
+    // Sørg for at modal er inaktiv ved lasting
     const modal = document.getElementById("image-modal");
     if (modal) {
         modal.classList.remove("active");
     }
     setupModal();
+
+    // Legg til footer hvis den ikke er fylt inn
+    const footer = document.getElementById("footer");
+    if (footer && !footer.innerHTML.trim()) {
+        footer.innerHTML = `
+            <ul class="social-links">
+                <li><a href="https://facebook.com" target="_blank">Facebook</a></li>
+                <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
+            </ul>
+        `;
+    }
 });
+
 
 // 🟢 Fetch blog post data
 async function fetchBlogPost() {

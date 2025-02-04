@@ -3,17 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
   <title>Blog Post</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
   <script src="js/main.js" defer></script>
   <script src="js/blog-post.js" defer></script>
   <script src="js/carousel.js" defer></script>
 
+  <!-- Hotjar Tracking Code for Into the woods -->
+<script>
+  (function(h,o,t,j,a,r){
+      h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+      h._hjSettings={hjid:5291741,hjsv:6};
+      a=o.getElementsByTagName('head')[0];
+      r=o.createElement('script');r.async=1;
+      r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+      a.appendChild(r);
+  })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
 </head>
 <body>
   <div id="header"></div>
 
   <main>
+    <div class="blog-post-container">
     <article id="blog-post" class="blog-post">
       <div class="blog-header">
         <h1>Loading...</h1>
@@ -26,8 +42,9 @@
         <div id="additional-content"></div>
       </div>
     </article>
+  </div>
 
-    <section id="comments-section">
+    <section id="comments-section" class="comment-section">
       <h2>Leave a comment</h2>
       <form id="comment-form">
         <input type="text" id="comment-name" placeholder="Your name" required>

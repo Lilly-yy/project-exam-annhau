@@ -32,6 +32,10 @@ h2 {
   color: var(--dark-color);
 }
 
+h3 {
+  color: var(--dark-color);
+}
+
 html {
   overflow-x: hidden; 
 }
@@ -142,7 +146,6 @@ html {
 }
 
 
-
 .scroll-container img {
   height: auto;
   width: 100%; 
@@ -153,13 +156,12 @@ html {
 /* Footer styles */
 .footer-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Logoen til venstre, navigasjonslenker + sosiale lenker til høyre */
   align-items: center;
   background-color: var(--primary-color);
   padding: 1rem 2rem;
-  flex-wrap: wrap; 
-  color: var(--light-color);
-  gap: 1rem; 
+  gap: 1rem;
+  flex-wrap: wrap; /* Responsiv oppførsel */
 }
 
 .footer-logo img {
@@ -167,84 +169,95 @@ html {
   width: auto;
 }
 
-.footer-container p {
-  margin: 0;
-  font-size: 1rem;
-  text-align: center;
-  width: 100%; 
-  bottom: 0; 
-  left: 0;
-  right: 0;
-  background-color: var(--primary-color);
-  padding: 0.5rem 0; 
+.footer-links {
+  display: flex;
+  justify-content: flex-end; /* Flytter alt til høyre */
+  align-items: center; /* Vertikal justering */
+  gap: 2rem; /* Avstand mellom navigasjon og sosiale lenker */
 }
 
-.footer-nav,
-.social-links {
-  list-style: none;
+.footer-nav {
   display: flex;
-  gap: 1rem;
+  list-style: none;
+  gap: 1.5rem;
   padding: 0;
   margin: 0;
 }
 
-.footer-nav a,
-.social-links a {
+.footer-nav a {
   text-decoration: none;
   color: var(--light-color);
   font-size: 1rem;
 }
 
-.footer-nav a:hover,
-.social-links a:hover {
+.footer-nav a:hover {
   text-decoration: underline;
 }
 
-.social-links a {
-  font-size: 1.5rem; 
+.social-links {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
+
+.social-links a {
+  color: var(--light-color);
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+
+.social-links a:hover {
+  color: var(--primary-color);
+}
+
+.footer-container p {
+  margin: 0;
+  font-size: 1rem;
+  width: 100%; /* Sørger for at copyright-teksten er sentrert */
+  text-align: center;
+  color: var(--light-color);
+}
+
+
 
 /* Responsive design for small screens */
 @media (max-width: 768px) {
   .footer-container {
       flex-direction: column;
       align-items: center;
-      text-align: center;
-      height: auto;
-      gap: 1.5rem;
+     
+  }
+
+ .social-links a {
+      font-size: 2rem;
+  }
+
+  .footer-nav a {
+      font-size: 1.5rem;
   }
 
   .footer-logo img {
     max-height: 70px;
   }
 
-  .footer-nav,
-  .social-links {
-      flex-direction: column; 
-      align-items: center; 
-      gap: 1.5rem; 
-  }
- 
+  .footer-links {
+    flex-direction: column; /* Stabler navigasjon og sosiale lenker vertikalt */
+    align-items: center; /* Sentraliserer dem */
+    gap: 2rem; /* Reduserer avstanden */
+}
 
-  .footer-container p {
-      position: static; 
-      margin-top: 1rem;
-  }
+.footer-nav {
+    justify-content: center; /* Sentraliserer navigasjonslenker */
+    gap: 1rem;
+}
 
-    /* Responsive Design footer */
-    .footer-container {
-      flex-direction: column; 
-      text-align: center; 
-    }
-  
-    .footer-container a {
-      font-size: 1.5rem; 
-    }
-
-    .social-links a {
-      font-size: 2rem; 
-    }
-  }
+.social-links {
+    justify-content: center; /* Sentraliserer sosiale lenker */
+    gap: 2rem;
+}
+}
   
 
 
@@ -300,6 +313,18 @@ html {
   align-items: center;
 }
 
+.intro-text {
+  background: var(--light-color);
+  padding: 2rem;
+
+}
+
+.intro-text p {
+  font-size: 1.5rem;
+  max-width: 1200px; 
+  margin: 0 auto; 
+  text-align: center;
+}
   /* Responsive Design intro */
 
 @media (max-width: 768px) {
@@ -769,11 +794,12 @@ padding-top: 1rem;
   background-color: var(--light-color);
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
   text-decoration: none;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+
 .blog-overview .blog-post:hover {
   transform: translateY(-5px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
@@ -821,6 +847,39 @@ padding-top: 1rem;
   }
 }
 
+
+/* Blog page */
+.blog-post-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: var(--light-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.blog-post-container img {
+  max-width: 50%;
+  height: auto;
+  display: block;
+  margin: 20px auto;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.blog-content {
+  text-align: left;
+}
+
+.blog-post h1 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 10px;
+  color: var(--primary-color);
+}
+
+/* Comments Section */
 #comments-section {
   margin-top: 30px;
   padding: 20px;
@@ -834,7 +893,8 @@ padding-top: 1rem;
   gap: 10px;
 }
 
-#comment-form input, #comment-form textarea {
+#comment-form input,
+#comment-form textarea {
   width: 100%;
   padding: 10px;
   border: 1px solid var(--dark-color);
@@ -850,20 +910,79 @@ padding-top: 1rem;
   cursor: pointer;
 }
 
+#comments-list {
+ padding: 2rem;
+}
+
 #comments-list ul {
   list-style-type: none;
   padding: 0;
 }
 
 #comments-list li {
-  background: white;
+  background: #DDF6F5;
   margin-top: 10px;
-  padding: 10px;
+  padding: 2rem;
   border-radius: 5px;
 }
 
+.comment-section {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: var(--light-color);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-/* Style for the modal - hidden by default */
+.comment-section h2 {
+  text-align: center;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+}
+
+.comment-section input,
+.comment-section textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid var(--dark-color);
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.comment-section button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: var(--primary-color);
+  color: var(--light-color);
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.comment-section button:hover {
+  background-color: var(--light-color);
+  color: var(--dark-color);
+}
+
+.comment-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.comment-section li {
+  margin-bottom: 10px;
+  padding: 10px;
+  background: var(--light-color);
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Modal styles */
 .modal {
   display: none; 
   position: fixed;
@@ -873,18 +992,15 @@ padding-top: 1rem;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8); 
-
   justify-content: center;
   align-items: center;
   overflow: hidden; 
 }
 
-/* Active class to show the modal */
 .modal.active {
   display: flex;
 }
 
-/* Style for the modal content (the image) */
 .modal-content {
   max-width: 90%;
   max-height: 90%;
@@ -894,7 +1010,6 @@ padding-top: 1rem;
   object-fit: contain;
 }
 
-/* Ensure modal content does not take up unnecessary space */
 .modal img {
   display: block;
   width: auto;

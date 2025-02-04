@@ -46,7 +46,7 @@ function renderCarousel() {
         </div>
         <div class="carousel-dots"></div>
         <div class="view-all-link">
-            <a href="view-all-blog-posts.html">View all blog posts</a>
+            <a href="blog-overview.html">View all blog posts</a>
         </div>
     `;
 
