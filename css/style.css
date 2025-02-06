@@ -83,7 +83,7 @@ html {
 .nav-links a {
     color: var(--light-color);
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 1.2rem;
 }
 
 .nav-links a:hover,
@@ -130,34 +130,6 @@ html {
     }
 }
 
-/* Bottom Section */
-.bottom-section {
-  height: 300px; 
-  overflow: hidden; 
-  position: relative;
-}
-
-.scroll-container {
-  height: 100%;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch; 
-}
-
-.scroll-container::-webkit-scrollbar {
-  display: none; 
-}
-
-.scroll-container {
-  scrollbar-width: none; 
-}
-
-
-.scroll-container img {
-  height: auto;
-  width: 100%; 
-  object-fit: cover; 
-}
-
 
 /* Footer styles */
 .footer-container {
@@ -193,7 +165,7 @@ html {
 .footer-nav a {
   text-decoration: none;
   color: var(--light-color);
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 .footer-nav a:hover {
@@ -455,7 +427,7 @@ html {
 }
 
 .carousel-btn:hover {
-  background-color: var(--primary-color); 
+  background-color: var(--primary-color)(0, 0, 0, 0.5); 
   color: var(--light-color); 
 }
 
@@ -1066,4 +1038,44 @@ padding-top: 1rem;
         padding: 0px;
         border-radius: 0%;
 }
+}
+
+.parallax-container {
+  position: relative;
+  height: 500px; /* Juster høyden til ønsket verdi */
+  overflow: hidden; /* Sørg for at bildet ikke går utenfor containeren */
+  background-color: transparent; /* Valgfritt, for testing */
+  background-color: rgba(255, 0, 0, 0.3); /* Svak rød for testing */
+}
+
+.parallax-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Bildet skal dekke hele bredden */
+  height: 800px; /* Sørg for at bildet dekker hele høyden */
+  object-fit: cover; /* Skaler bildet proporsjonalt for å fylle containeren */
+  transform: translateY(0); /* Standard transform */
+  will-change: transform; /* Optimalisering for parallax */
+}
+
+
+
+.parallax-text {
+  position: absolute;
+  top: 50%; /* Sentraliser teksten vertikalt */
+  left: 50%; /* Sentraliser teksten horisontalt */
+  transform: translate(-50%, -50%); /* Sørger for at teksten er helt sentrert */
+  color: var(--light-color);
+  font-size: 2rem;
+  font-family: 'Lato', sans-serif;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 1);
+  text-align: center;
+  z-index: 1; /* Sørg for at teksten er synlig over bildet */
+}
+
+@media (max-width: 768px) {
+  .parallax-image {
+      object-position: left; /* Viser venstre side av bildet */
+  }
 }
