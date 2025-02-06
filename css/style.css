@@ -91,11 +91,16 @@ html {
     text-decoration: underline; 
 }
 
-.nav-links a.active {
-  font-weight: bold;
-  text-decoration: underline;
-  color: var(--primary-color); 
+.nav-links a.active,
+.footer-nav a.active {
+    color: var(--primary-color); /* Eller en annen fremhevet farge */
+    padding-left: 4px;
+    padding-right: 4px;
+    transition: all 0.3s ease;
+    background-color: var(--light-color);
+    border-radius: 5px;
 }
+
 
 /* Responsive Design header*/
 @media (max-width: 768px) {
@@ -210,7 +215,7 @@ html {
 }
 
 .social-links a:hover {
-  color: var(--primary-color);
+  color: var(--dark-color);
 }
 
 .footer-container p {
@@ -220,6 +225,7 @@ html {
   text-align: center;
   color: var(--light-color);
 }
+
 
 
 
@@ -779,6 +785,17 @@ padding-top: 1rem;
   color: var(--light-color);
 }
 
+.filters button.active {
+  background-color: var(--primary-color); /* Bruk en variabel eller en fast farge */
+  color: white;
+  border: 2px solid var(--primary-color);
+  border-radius: 5px;
+  font-weight: bold;
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
+
+
 .blog-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -983,6 +1000,26 @@ padding-top: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.adjacent-links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
+}
+
+.adjacent-links a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s ease;
+}
+
+.adjacent-links a:hover {
+  color: var(--dark-color);
+}
+
+
 /* Modal styles */
 .modal {
   display: none; 
@@ -1019,4 +1056,18 @@ padding-top: 1rem;
   max-height: 90%;
   margin: auto;
   border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+    .blog-image {
+        width: 100vw; /* Fyll hele skjermbredden */
+        margin: 0; /* Fjern marginer */
+    }
+
+    .blog-post-container img { 
+        max-width: 100%; /* Fyll hele skjermbredden */
+        margin: 0px;
+        padding: 0px;
+        border-radius: 0%;
+}
 }

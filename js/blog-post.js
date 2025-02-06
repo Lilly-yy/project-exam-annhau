@@ -16,29 +16,47 @@ const WP_API_URL = "https://annhau.no/blog/wp-json/wp/v2/comments";
 const WP_CUSTOM_COMMENT_URL = "https://annhau.no/blog/wp-json/custom/v1/comment";
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Last inn blogginnlegget og kommentarer
+    // Load blog post and comments
     fetchBlogPost();
     loadComments();
 
-    // Sørg for at modal er inaktiv ved lasting
-    const modal = document.getElementById("image-modal");
+    // Ensure modal is inactive on page load
     if (modal) {
         modal.classList.remove("active");
     }
     setupModal();
-
-    // Legg til footer hvis den ikke er fylt inn
-    const footer = document.getElementById("footer");
-    if (footer && !footer.innerHTML.trim()) {
-        footer.innerHTML = `
-            <ul class="social-links">
-                <li><a href="https://facebook.com" target="_blank">Facebook</a></li>
-                <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
-            </ul>
-        `;
-    }
 });
 
+// 🟢 Setup image modal
+function setupModal() {
+    const modal = document.getElementById("image-modal");
+    const modalImage = document.getElementById("modal-image");
+
+    if (!modal || !modalImage) {
+        console.error("Modal elements not found.");
+        return;
+    }
+
+    // Hide modal on page load
+    modal.classList.remove("active");
+    modalImage.src = "";
+
+    // Event delegation for all images
+    document.addEventListener("click", (event) => {
+        if (event.target.classList.contains("blog-image")) {
+            modal.classList.add("active");
+            modalImage.src = event.target.src;
+        }
+    });
+
+    // Close modal on click outside the image
+    modal.addEventListener("click", (event) => {
+        if (event.target === modal || event.target === modalImage) {
+            modal.classList.remove("active");
+            modalImage.src = "";
+        }
+    });
+}
 
 // 🟢 Fetch blog post data
 async function fetchBlogPost() {
@@ -49,9 +67,13 @@ async function fetchBlogPost() {
         const post = await response.json();
 
         // Update page title
-        document.title = `${post.title.rendered} |Into the Woods`;
+        document.title = `${post.title.rendered} | Into the Woods`;
 
+        // Render the blog post
         renderBlogPost(post);
+
+        // Fetch adjacent posts by date
+        await fetchAdjacentPosts(post.date);
     } catch (error) {
         console.error("Error fetching blog post:", error);
         blogPostContainer.innerHTML = `<p>Failed to load the blog post. Please try again later.</p>`;
@@ -72,40 +94,45 @@ function renderBlogPost(post) {
     contentImages.forEach((img) => {
         img.classList.add("blog-image");
     });
-
-    setupModal();
 }
 
+// 🟢 Fetch next and previous posts by date
+async function fetchAdjacentPosts(currentPostDate) {
+    try {
+        const [previousPosts, nextPosts] = await Promise.all([
+            fetch(`https://annhau.no/blog/wp-json/wp/v2/posts?before=${currentPostDate}&orderby=date&order=desc&per_page=1`).then(res => res.json()),
+            fetch(`https://annhau.no/blog/wp-json/wp/v2/posts?after=${currentPostDate}&orderby=date&order=asc&per_page=1`).then(res => res.json())
+        ]);
 
-// 🟢 Ensure modal works correctly
-function setupModal() {
-    const modal = document.getElementById("image-modal");
-    const modalImage = document.getElementById("modal-image");
+        const previousPost = previousPosts.length > 0 ? previousPosts[0] : null;
+        const nextPost = nextPosts.length > 0 ? nextPosts[0] : null;
 
-    if (!modal || !modalImage) {
-        console.error("Modal elements not found.");
-        return;
+        renderAdjacentPostLinks(previousPost, nextPost);
+    } catch (error) {
+        console.error("Error fetching adjacent posts:", error);
+    }
+}
+
+// 🟢 Render previous and next post links
+function renderAdjacentPostLinks(previousPost, nextPost) {
+    const adjacentLinksContainer = document.createElement("div");
+    adjacentLinksContainer.classList.add("adjacent-links");
+
+    if (previousPost) {
+        const previousLink = document.createElement("a");
+        previousLink.href = `blog-post.html?id=${previousPost.id}`;
+        previousLink.textContent = `← ${previousPost.title.rendered}`;
+        adjacentLinksContainer.appendChild(previousLink);
     }
 
-    // Ensure modal is hidden when the page loads
-    modal.classList.remove("active");
-    modalImage.src = "";
+    if (nextPost) {
+        const nextLink = document.createElement("a");
+        nextLink.href = `blog-post.html?id=${nextPost.id}`;
+        nextLink.textContent = `${nextPost.title.rendered} →`;
+        adjacentLinksContainer.appendChild(nextLink);
+    }
 
-    // Event listener for clicking on blog images
-    document.body.addEventListener("click", (event) => {
-        if (event.target.classList.contains("blog-image")) {
-            modal.classList.add("active"); 
-            modalImage.src = event.target.src;
-        }
-    });
-
-    // Event listener for closing the modal
-    modal.addEventListener("click", (event) => {
-        if (event.target === modal || event.target === modalImage) {
-            modal.classList.remove("active");
-            modalImage.src = "";
-        }
-    });
+    blogPostContainer.appendChild(adjacentLinksContainer);
 }
 
 // 🟢 Fetch comments from WordPress
@@ -120,16 +147,54 @@ async function fetchWPComments() {
     }
 }
 
-// 🟢 Get comments from LocalStorage
-function getLocalComments() {
-    return JSON.parse(localStorage.getItem(`comments_${postId}`)) || [];
+// 🟢 Load and display comments
+async function loadComments() {
+    const wpComments = await fetchWPComments();
+
+    // Convert comments to displayable format
+    const allComments = wpComments.map(c => ({
+        name: c.author_name,
+        text: c.content.rendered
+    }));
+
+    displayComments(allComments);
 }
 
-// 🟢 Save comment to LocalStorage
-function saveLocalComment(comment) {
-    let comments = getLocalComments();
-    comments.push(comment);
-    localStorage.setItem(`comments_${postId}`, JSON.stringify(comments));
+// 🟢 Display comments in the UI
+function displayComments(comments) {
+    commentsList.innerHTML = ""; // Clear list before reloading
+    comments.forEach((comment) => {
+        const li = document.createElement("li");
+        li.innerHTML = `<strong>${comment.name}</strong>: ${comment.text}`;
+        li.classList.add("comment");
+        commentsList.appendChild(li);
+    });
+}
+
+// 🟢 Handle comment submission
+commentForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const newComment = {
+        name: commentName.value.trim(),
+        text: commentText.value.trim(),
+    };
+
+    if (newComment.name && newComment.text) {
+        displayTemporaryComment(newComment); // Show immediately
+        await saveWPComment(newComment); // Save to WordPress
+        commentName.value = "";
+        commentText.value = "";
+        loadComments(); // Reload comments
+    }
+});
+
+// 🟢 Show temporary comment while saving to WordPress
+function displayTemporaryComment(comment) {
+    const li = document.createElement("li");
+    li.innerHTML = `<strong>${comment.name}</strong>: ${comment.text}`;
+    li.classList.add("temporary-comment");
+    commentsList.appendChild(li);
 }
 
 // 🟢 Save comment to WordPress
@@ -148,8 +213,6 @@ async function saveWPComment(comment) {
         });
 
         const result = await response.json();
-        console.log("WP API Response:", result);
-
         if (!response.ok) throw new Error(result.message || "Failed to save the comment in WordPress");
 
         console.log("Comment successfully saved in WordPress");
@@ -157,50 +220,3 @@ async function saveWPComment(comment) {
         console.error("Error while saving comment in WordPress:", error);
     }
 }
-
-// 🟢 Display all comments in the UI
-function displayComments(comments) {
-    commentsList.innerHTML = "";
-    comments.forEach((comment) => {
-        const li = document.createElement("li");
-        li.innerHTML = `<strong>${comment.name || comment.author_name}</strong>: ${comment.text || comment.content.rendered}`;
-        commentsList.appendChild(li);
-    });
-}
-
-// 🟢 Load and merge comments from both sources
-async function loadComments() {
-    const localComments = getLocalComments();
-    const wpComments = await fetchWPComments();
-
-    const allComments = [
-        ...localComments,
-        ...wpComments.map((c) => ({ name: c.author_name, text: c.content.rendered })),
-    ];
-
-    displayComments(allComments);
-}
-
-// 🟢 Handle comment submission
-commentForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const newComment = {
-        name: commentName.value.trim(),
-        text: commentText.value.trim(),
-    };
-
-    if (newComment.name && newComment.text) {
-        saveLocalComment(newComment); 
-        saveWPComment(newComment); 
-        commentName.value = "";
-        commentText.value = "";
-        loadComments();
-    }
-});
-
-// 🟢 Start loading content
-document.addEventListener("DOMContentLoaded", () => {
-    fetchBlogPost();
-    loadComments();
-});
