@@ -93,7 +93,7 @@ html {
 
 .nav-links a.active,
 .footer-nav a.active {
-    color: var(--primary-color); /* Eller en annen fremhevet farge */
+    color: var(--primary-color); 
     padding-left: 4px;
     padding-right: 4px;
     transition: all 0.3s ease;
@@ -101,8 +101,6 @@ html {
     border-radius: 5px;
 }
 
-
-/* Responsive Design header*/
 @media (max-width: 768px) {
     .header-container {
         flex-direction: column;
@@ -111,35 +109,30 @@ html {
     }
 
 .nav-links {
-  display: flex;
-  list-style: none;
-  gap: 1.5rem;
   padding: 0;
   margin: 0;
 }
 
 .nav-links a {
-  text-decoration: none;
-  color: var(--light-color); 
   font-size: 1.5rem; 
   font-weight: normal;
 }
 
-    .logo img {
-        width: auto;
-    }
+.logo img {
+  width: auto;
+}
 }
 
 
 /* Footer styles */
 .footer-container {
   display: flex;
-  justify-content: space-between; /* Logoen til venstre, navigasjonslenker + sosiale lenker til høyre */
+  justify-content: space-between; 
   align-items: center;
   background-color: var(--primary-color);
   padding: 1rem 2rem;
   gap: 1rem;
-  flex-wrap: wrap; /* Responsiv oppførsel */
+  flex-wrap: wrap; 
 }
 
 .footer-logo img {
@@ -149,9 +142,9 @@ html {
 
 .footer-links {
   display: flex;
-  justify-content: flex-end; /* Flytter alt til høyre */
-  align-items: center; /* Vertikal justering */
-  gap: 2rem; /* Avstand mellom navigasjon og sosiale lenker */
+  justify-content: flex-end; 
+  align-items: center; 
+  gap: 2rem; 
 }
 
 .footer-nav {
@@ -193,7 +186,7 @@ html {
 .footer-container p {
   margin: 0;
   font-size: 1rem;
-  width: 100%; /* Sørger for at copyright-teksten er sentrert */
+  width: 100%;  
   text-align: center;
   color: var(--light-color);
 }
@@ -222,18 +215,18 @@ html {
   }
 
   .footer-links {
-    flex-direction: column; /* Stabler navigasjon og sosiale lenker vertikalt */
-    align-items: center; /* Sentraliserer dem */
-    gap: 2rem; /* Reduserer avstanden */
+    flex-direction: column; 
+    align-items: center; 
+    gap: 2rem; 
 }
 
 .footer-nav {
-    justify-content: center; /* Sentraliserer navigasjonslenker */
+    justify-content: center; 
     gap: 1rem;
 }
 
 .social-links {
-    justify-content: center; /* Sentraliserer sosiale lenker */
+    justify-content: center; 
     gap: 2rem;
 }
 }
@@ -427,7 +420,7 @@ html {
 }
 
 .carousel-btn:hover {
-  background-color: var(--primary-color)(0, 0, 0, 0.5); 
+  background-color: rgba(0, 0, 0, 0.5); 
   color: var(--light-color); 
 }
 
@@ -602,7 +595,7 @@ html {
   
 }
 
-.info-box h2,
+.info-box h1,
 .form-box h2 {
   margin-top: 0;
   margin-bottom: 1rem;
@@ -754,7 +747,7 @@ padding-top: 1rem;
 }
 
 .filters button.active {
-  background-color: var(--primary-color); /* Bruk en variabel eller en fast farge */
+  background-color: var(--primary-color); 
   color: white;
   border: 2px solid var(--primary-color);
   border-radius: 5px;
@@ -790,12 +783,6 @@ padding-top: 1rem;
   transform: translateY(-5px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
-
-.blog-post-page .blog-post:hover {
-  transform: none; 
-  box-shadow: none;
-}
-
 
 .blog-post img {
   width: 100%;
@@ -1027,13 +1014,16 @@ padding-top: 1rem;
 }
 
 @media (max-width: 768px) {
-    .blog-image {
-        width: 100vw; /* Fyll hele skjermbredden */
-        margin: 0; /* Fjern marginer */
-    }
+  .blog-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
 
-    .blog-post-container img { 
-        max-width: 100%; /* Fyll hele skjermbredden */
+
+.blog-post-container img { 
+        max-width: 100%; 
         margin: 0px;
         padding: 0px;
         border-radius: 0%;
@@ -1042,40 +1032,39 @@ padding-top: 1rem;
 
 .parallax-container {
   position: relative;
-  height: 500px; /* Juster høyden til ønsket verdi */
-  overflow: hidden; /* Sørg for at bildet ikke går utenfor containeren */
-  background-color: transparent; /* Valgfritt, for testing */
-  background-color: rgba(255, 0, 0, 0.3); /* Svak rød for testing */
+  height: 500px; 
+  overflow: hidden; 
+  background-color: transparent; 
 }
 
 .parallax-image {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%; /* Bildet skal dekke hele bredden */
-  height: 800px; /* Sørg for at bildet dekker hele høyden */
-  object-fit: cover; /* Skaler bildet proporsjonalt for å fylle containeren */
-  transform: translateY(0); /* Standard transform */
-  will-change: transform; /* Optimalisering for parallax */
+  width: 100%; 
+  height: 800px; 
+  object-fit: cover; 
+  transform: translateY(0); 
+  will-change: transform; 
 }
 
 
 
 .parallax-text {
   position: absolute;
-  top: 50%; /* Sentraliser teksten vertikalt */
-  left: 50%; /* Sentraliser teksten horisontalt */
-  transform: translate(-50%, -50%); /* Sørger for at teksten er helt sentrert */
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
   color: var(--light-color);
   font-size: 2rem;
   font-family: 'Lato', sans-serif;
   text-shadow: 2px 2px 10px rgba(0, 0, 0, 1);
   text-align: center;
-  z-index: 1; /* Sørg for at teksten er synlig over bildet */
+  z-index: 1; 
 }
 
 @media (max-width: 768px) {
   .parallax-image {
-      object-position: left; /* Viser venstre side av bildet */
+      object-position: left;
   }
 }

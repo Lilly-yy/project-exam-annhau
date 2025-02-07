@@ -7,28 +7,23 @@ document.getElementById('contactForm').addEventListener('submit', async function
     const message = document.getElementById('message').value.trim();
     const errorMessages = [];
 
-    // Name validation
     if (name.length <= 5) {
         errorMessages.push('Name must be more than 5 characters long.');
     }
 
-    // Email validation
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(email)) {
         errorMessages.push('Please enter a valid email address.');
     }
 
-    // Subject validation
     if (subject.length <= 15) {
         errorMessages.push('Subject must be more than 15 characters long.');
     }
 
-    // Message validation
     if (message.length <= 25) {
         errorMessages.push('Message content must be more than 25 characters long.');
     }
 
-    // Display error messages
     const errorContainer = document.getElementById('error-messages');
     errorContainer.innerHTML = '';
 
@@ -42,7 +37,6 @@ document.getElementById('contactForm').addEventListener('submit', async function
         return;
     }
 
-    // Prepare form data for submission
     const formData = {
         name: name,
         email: email,

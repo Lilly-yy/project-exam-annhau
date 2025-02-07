@@ -16,18 +16,17 @@ const WP_API_URL = "https://annhau.no/blog/wp-json/wp/v2/comments";
 const WP_CUSTOM_COMMENT_URL = "https://annhau.no/blog/wp-json/custom/v1/comment";
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Load blog post and comments
+
     fetchBlogPost();
     loadComments();
 
-    // Ensure modal is inactive on page load
+
     if (modal) {
         modal.classList.remove("active");
     }
     setupModal();
 });
 
-// 🟢 Setup image modal
 function setupModal() {
     const modal = document.getElementById("image-modal");
     const modalImage = document.getElementById("modal-image");
@@ -37,11 +36,9 @@ function setupModal() {
         return;
     }
 
-    // Hide modal on page load
     modal.classList.remove("active");
     modalImage.src = "";
 
-    // Event delegation for all images
     document.addEventListener("click", (event) => {
         if (event.target.classList.contains("blog-image")) {
             modal.classList.add("active");
@@ -49,7 +46,6 @@ function setupModal() {
         }
     });
 
-    // Close modal on click outside the image
     modal.addEventListener("click", (event) => {
         if (event.target === modal || event.target === modalImage) {
             modal.classList.remove("active");
@@ -57,8 +53,6 @@ function setupModal() {
         }
     });
 }
-
-// 🟢 Fetch blog post data
 async function fetchBlogPost() {
     try {
         const response = await fetch(`https://annhau.no/blog/wp-json/wp/v2/posts/${postId}?_embed`);
@@ -66,21 +60,16 @@ async function fetchBlogPost() {
 
         const post = await response.json();
 
-        // Update page title
         document.title = `${post.title.rendered} | Into the Woods`;
 
-        // Render the blog post
         renderBlogPost(post);
 
-        // Fetch adjacent posts by date
         await fetchAdjacentPosts(post.date);
     } catch (error) {
         console.error("Error fetching blog post:", error);
         blogPostContainer.innerHTML = `<p>Failed to load the blog post. Please try again later.</p>`;
     }
 }
-
-// 🟢 Render the blog post
 function renderBlogPost(post) {
     const image = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "";
     blogPostContainer.innerHTML = `
@@ -96,7 +85,6 @@ function renderBlogPost(post) {
     });
 }
 
-// 🟢 Fetch next and previous posts by date
 async function fetchAdjacentPosts(currentPostDate) {
     try {
         const [previousPosts, nextPosts] = await Promise.all([
@@ -113,7 +101,6 @@ async function fetchAdjacentPosts(currentPostDate) {
     }
 }
 
-// 🟢 Render previous and next post links
 function renderAdjacentPostLinks(previousPost, nextPost) {
     const adjacentLinksContainer = document.createElement("div");
     adjacentLinksContainer.classList.add("adjacent-links");
@@ -135,7 +122,6 @@ function renderAdjacentPostLinks(previousPost, nextPost) {
     blogPostContainer.appendChild(adjacentLinksContainer);
 }
 
-// 🟢 Fetch comments from WordPress
 async function fetchWPComments() {
     try {
         const response = await fetch(`${WP_API_URL}?post=${postId}`);
@@ -147,11 +133,9 @@ async function fetchWPComments() {
     }
 }
 
-// 🟢 Load and display comments
 async function loadComments() {
     const wpComments = await fetchWPComments();
 
-    // Convert comments to displayable format
     const allComments = wpComments.map(c => ({
         name: c.author_name,
         text: c.content.rendered
@@ -160,9 +144,8 @@ async function loadComments() {
     displayComments(allComments);
 }
 
-// 🟢 Display comments in the UI
 function displayComments(comments) {
-    commentsList.innerHTML = ""; // Clear list before reloading
+    commentsList.innerHTML = ""; 
     comments.forEach((comment) => {
         const li = document.createElement("li");
         li.innerHTML = `<strong>${comment.name}</strong>: ${comment.text}`;
@@ -181,15 +164,14 @@ commentForm.addEventListener("submit", async (event) => {
     };
 
     if (newComment.name && newComment.text) {
-        displayTemporaryComment(newComment); // Show immediately
-        await saveWPComment(newComment); // Save to WordPress
+        displayTemporaryComment(newComment); 
+        await saveWPComment(newComment); 
         commentName.value = "";
         commentText.value = "";
-        loadComments(); // Reload comments
+        loadComments(); 
     }
 });
 
-// 🟢 Show temporary comment while saving to WordPress
 function displayTemporaryComment(comment) {
     const li = document.createElement("li");
     li.innerHTML = `<strong>${comment.name}</strong>: ${comment.text}`;
@@ -197,7 +179,6 @@ function displayTemporaryComment(comment) {
     commentsList.appendChild(li);
 }
 
-// 🟢 Save comment to WordPress
 async function saveWPComment(comment) {
     try {
         const response = await fetch(WP_CUSTOM_COMMENT_URL, {
@@ -214,9 +195,10 @@ async function saveWPComment(comment) {
 
         const result = await response.json();
         if (!response.ok) throw new Error(result.message || "Failed to save the comment in WordPress");
-
-        console.log("Comment successfully saved in WordPress");
-    } catch (error) {
-        console.error("Error while saving comment in WordPress:", error);
+    } 
+    catch (error) {
+        document.getElementById("error-messages").innerHTML = 
+            "<p>Could not save comment. Please try again later.</p>";
     }
+    
 }

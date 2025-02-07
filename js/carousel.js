@@ -12,7 +12,7 @@ updateItemsPerView();
 
 async function fetchBlogPosts() {
     try {
-        const response = await fetch('https://annhau.no/blog/wp-json/wp/v2/posts?per_page=5&_embed');
+        const response = await fetch('https://annhau.no/blog/wp-json/wp/v2/posts?per_page=6&_embed');
         posts = await response.json();
 
         renderCarousel();

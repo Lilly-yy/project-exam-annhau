@@ -6,7 +6,6 @@ let posts = [];
 let visiblePosts = 10; 
 let currentCategory = ''; 
 
-// Hent innlegg fra WordPress REST API
 async function fetchBlogPosts() {
     try {
         const response = await fetch('https://annhau.no/blog/wp-json/wp/v2/posts?per_page=100&_embed');
@@ -18,7 +17,6 @@ async function fetchBlogPosts() {
     }
 }
 
-// Render blogginnlegg
 function renderPosts() {
     blogContainer.innerHTML = ''; 
     const filteredPosts = currentCategory
@@ -38,7 +36,6 @@ function renderPosts() {
         blogContainer.innerHTML += postHTML;
     });
 
-    // Skjul "Load more"-knappen hvis alle innlegg vises
     if (visiblePosts >= filteredPosts.length) {
         loadMoreButton.style.display = 'none';
     } else {
@@ -46,13 +43,13 @@ function renderPosts() {
     }
 }
 
-// Håndter "Load more"-knappen
+
 loadMoreButton.addEventListener('click', () => {
     visiblePosts += 6; 
     renderPosts();
 });
 
-// Håndter filtrering
+
 filters.forEach(filter => {
     filter.addEventListener('click', () => {
         currentCategory = filter.dataset.category === '15' ? '' : filter.dataset.category; // 'All' viser alt
@@ -63,5 +60,4 @@ filters.forEach(filter => {
     });
 });
 
-// Start henting av innlegg
 fetchBlogPosts();
