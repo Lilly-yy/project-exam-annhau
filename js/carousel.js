@@ -1,6 +1,8 @@
 const blogContainer = document.getElementById("latest-blog-posts");
 let posts = [];
 let itemsPerView = 3; // Standard antall elementer per visning
+let touchStartX = 0;
+let touchEndX = 0;
 
 // Sjekk om vi er på mobilskjerm
 const mediaQuery = window.matchMedia("(max-width: 768px)");
@@ -109,11 +111,6 @@ function initCarousel() {
 
     carousel.addEventListener("touchstart", (e) => {
         touchStartX = e.touches[0].clientX;
-        e.preventDefault(); // Forhindre uønsket scrolling på mobil
-    });
-
-    carousel.addEventListener("touchmove", (e) => {
-        e.preventDefault(); // Hindrer scroll under swipe
     });
 
     carousel.addEventListener("touchend", (e) => {
@@ -138,5 +135,8 @@ function initCarousel() {
     updateCarousel();
 }
 
-// Start fetching blog posts
+
+
+
+// Start henting av bloggposter
 fetchBlogPosts();
