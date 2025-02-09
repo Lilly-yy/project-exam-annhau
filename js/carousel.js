@@ -1,13 +1,13 @@
 const blogContainer = document.getElementById("latest-blog-posts");
 let posts = [];
-let itemsPerView = 3; // Standard antall elementer per visning
+let itemsPerView = 3; 
 let touchStartX = 0;
 let touchEndX = 0;
 
 // Sjekk om vi er på mobilskjerm
 const mediaQuery = window.matchMedia("(max-width: 768px)");
 function updateItemsPerView() {
-    itemsPerView = mediaQuery.matches ? 1 : 3; // Én post på mobil, ellers tre
+    itemsPerView = mediaQuery.matches ? 1 : 3; 
 }
 mediaQuery.addEventListener("change", updateItemsPerView);
 updateItemsPerView();
@@ -134,9 +134,6 @@ function initCarousel() {
     // Initial oppdatering
     updateCarousel();
 }
-
-
-
 
 // Start henting av bloggposter
 fetchBlogPosts();
